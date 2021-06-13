@@ -42,6 +42,20 @@ export default function ViewSizeListForPizza(props) {
         props.history.push("size/"+sizeId)
     }
 
+    function deletePizzaSize(pizzaSizeId) {
+        if(window.confirm("Do you want to delete this record?")) {
+            axios.delete("http://localhost:8080/pizza-size/"+pizzaSizeId).then((res) => {
+                alert(res.data.messages);
+                const currentData = pizzaSizes.filter(pizzaSize =>  pizzaSize.id !== pizzaSizeId);
+                setPizzaSizes(currentData);
+            }).catch((err) => {
+                alert(err);
+            })
+        } else {
+            alert("Delete cancelled.");
+        }
+    }
+
     return(
         <div className="container" style={{marginTop: 20}}>
             <div className="card" style={{width : "50%"}}>
@@ -81,6 +95,7 @@ export default function ViewSizeListForPizza(props) {
                     <th scope="col">Name</th>
                     <th scope="col">Price</th>
                     <th scope="col">View</th>
+                    <th scope="col">Delete</th>
                 </tr>
                 </thead>
                 <tbody>
@@ -93,8 +108,9 @@ export default function ViewSizeListForPizza(props) {
                             <tr key={index}>
                                 <td>{pizzaSize.id}</td>
                                 <td>{pizzaSize.pizzaSizeName}</td>
-                                <td>Rs. {pizzaSize.price}</td>
+                                <td>Rs. {(Math.round(pizzaSize.price * 100) / 100).toFixed(2)}</td>
                                 <td><button className="btn btn-primary" onClick={() => viewSize(pizzaSize.pizzaSizeId)}>View</button></td>
+                                <td><button className="btn btn-danger" onClick={() => deletePizzaSize(pizzaSize.id)}>Delete</button></td>
                             </tr>
                         ))
                 }

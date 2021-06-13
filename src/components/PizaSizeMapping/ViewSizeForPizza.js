@@ -71,7 +71,7 @@ export default function ViewSizeForPizza(props) {
                         <div className="form-group row">
                             <label htmlFor="price" className="col-sm-3">Price</label>
                             <div className="col-sm-5">
-                                <input type="text" className="form-control" onChange={(e) => handle(e)} id="price" placeholder="Enter Price" value={data.price} />
+                                <input type="text" className="form-control" onChange={(e) => handle(e)} id="price" placeholder="Enter Price" value={(Math.round(data.price * 100) / 100).toFixed(2)} />
                             </div>
                         </div><br/>
                         <button type="submit" className="btn btn-primary">Submit</button>
